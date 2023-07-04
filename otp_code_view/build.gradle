@@ -7,7 +7,7 @@ publishing {
     publications {
         release(MavenPublication) {
             groupId = 'com.github.phong016688'
-            artifactId = 'otp-code-android-lib'
+            artifactId = 'otp-code-android-view'
             version = '0.0.1'
 
             afterEvaluate {
