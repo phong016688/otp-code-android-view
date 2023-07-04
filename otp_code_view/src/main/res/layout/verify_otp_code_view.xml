@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_wrong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginHorizontal="20dp"
+        android:textStyle="bold"
+        android:text="Wrong code"
+        android:textColor="#ef4d42"
+        android:textSize="14sp"
+        android:visibility="invisible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctn_input_code"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/edt_code"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autofillHints="smsOTPCode"
+            android:background="@android:color/transparent"
+            android:cursorVisible="false"
+            android:focusable="true"
+            android:importantForAutofill="yes"
+            android:inputType="number"
+            android:textColor="@android:color/transparent" />
+
+        <requestFocus />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv3"
+            app:layout_constraintStart_toEndOf="@id/tv1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv4"
+            app:layout_constraintStart_toEndOf="@id/tv2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv5"
+            app:layout_constraintStart_toEndOf="@id/tv3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@id/tv6"
+            app:layout_constraintStart_toEndOf="@id/tv4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/bg_radius_12_0af1f6f9"
+android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#f2f2f2"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvCodeInvalid"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_radius_12_0af1f6f9"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:text="Invalid code"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:drawableTint="#ef4d42" />
+</androidx.appcompat.widget.LinearLayoutCompat>
