@@ -5,6 +5,8 @@ import android.content.Context
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -13,8 +15,7 @@ import androidx.core.widget.doOnTextChanged
 import com.otp.otp_code_view.databinding.VerifyOtpCodeViewBinding
 
 class VerifyCodeView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val binding: VerifyOtpCodeViewBinding
     private var onVerifyDone: ((String) -> Unit)? = null
@@ -28,46 +29,64 @@ class VerifyCodeView @JvmOverloads constructor(
     }
 
     private fun handleInputCode() {
-        val views =
-            (0 until binding.ctnInputCode.childCount).map { binding.ctnInputCode.getChildAt(it) }
-        val et = views[0] as EditText
-        val tvs = views.drop(1).map { it as TextView }
-        et.filters = arrayOf(InputFilter.LengthFilter(tvs.size))
-        et.setOnClickListener { et.placeCursorToEnd() }
-        et.doOnTextChanged { text, _, _, _ ->
-            onTextChanged?.invoke(text.toString())
-            binding.tvCodeInvalid.gone()
-            text.toString().apply {
-                binding.tvWrong.invisible()
-                (indices).forEach {
-                    tvs[it].setTextColor(ContextCompat.getColor(context, R.color.color_8b9199))
-                    tvs[it].text = get(it).toString()
-                    tvs[it].setBackgroundResource(R.drawable.bg_radius_12_stroke)
-//                    if (it == length - 1) {
-//                        tvs[it].setBackgroundResource(R.drawable.bg_radius_12_stroke)
-//                    } else {
-//                        tvs[it].setBackgroundResource(R.drawable.bg_radius_12_0af1f6f9)
-//                    }
-                }
-                (length until tvs.size).forEach {
-                    tvs[it].setBackgroundResource(R.drawable.bg_radius_12_0af1f6f9)
-                    tvs[it].setTextColor(ContextCompat.getColor(context, R.color.color_8b9199))
-                    tvs[it].text = ""
-                }
-                if (length == tvs.size) {
-                    (tvs.indices).forEach {
-                        tvs[it].setBackgroundResource(R.drawable.bg_radius_12_stroke)
-                        tvs[it].setTextColor(ContextCompat.getColor(context, R.color.color_8b9199))
-                        tvs[it].text = get(it).toString()
-                    }
-                    onVerifyDone?.invoke(this)
-                }
+        val allViews = getAllViews()
+        val listTextView = allViews.drop(1).map { it as TextView }
+        val mainEditText = allViews[0] as EditText
+        mainEditText.filters = arrayOf(InputFilter.LengthFilter(listTextView.size))
+        mainEditText.setOnClickListener { mainEditText.setSelection(mainEditText.text.length) }
+        mainEditText.doOnTextChanged { text, _, _, _ -> handleShowCode(text, listTextView) }
+    }
+
+    private fun handleShowCode(text: CharSequence?, listTextView: List<TextView>) {
+        onTextChanged?.invoke(text.toString())
+        binding.tvCodeInvalid.visibility = GONE
+        text.toString().apply {
+            handleBackgroundHasCode(listTextView)
+            handleBackgroundNotHasCode(listTextView)
+            if (length == listTextView.size) {
+                handleBackgroundDoneEnter(listTextView)
+                onVerifyDone?.invoke(this)
+                binding.root.hideKeyBoard()
             }
         }
     }
 
-    fun verifyFailure() {
-        showError()
+    private fun String.handleBackgroundDoneEnter(listTextView: List<TextView>) {
+        (listTextView.indices).forEach {
+            listTextView[it].setBackgroundResource(R.drawable.bg_radius_12_yellow2)
+            listTextView[it].setTextColor(ContextCompat.getColor(context, R.color.color_f2f2f2))
+            listTextView[it].text = get(it).toString()
+        }
+    }
+
+    private fun String.handleBackgroundNotHasCode(listTextView: List<TextView>) {
+        (length until listTextView.size).forEach {
+            listTextView[it].setBackgroundResource(R.drawable.bg_radius_12)
+            listTextView[it].setTextColor(ContextCompat.getColor(context, R.color.color_f2f2f2))
+            listTextView[it].text = ""
+        }
+    }
+
+    private fun String.handleBackgroundHasCode(listTextView: List<TextView>) {
+        (indices).forEach {
+            listTextView[it].setTextColor(ContextCompat.getColor(context, R.color.color_f2f2f2))
+            listTextView[it].text = get(it).toString()
+            listTextView[it].setBackgroundResource(R.drawable.bg_radius_12_yellow)
+        }
+    }
+
+    private fun getAllViews() =
+        (0 until binding.ctnInputCode.childCount).map { binding.ctnInputCode.getChildAt(it) }
+
+    private fun View.hideKeyBoard() {
+        runCatching {
+            val inputMethodManager = context.getSystemService(InputMethodManager::class.java)
+            inputMethodManager?.hideSoftInputFromWindow(windowToken, 0)
+        }
+    }
+
+    fun setOnVerifyListener(onVerify: (String) -> Unit) {
+        onVerifyDone = onVerify
     }
 
     fun getCode() = binding.edtCode.text?.toString() ?: ""
@@ -76,21 +95,10 @@ class VerifyCodeView @JvmOverloads constructor(
         binding.edtCode.setText("")
     }
 
-    fun verifyFailure(errorText: String) {
-        binding.tvWrong.text = errorText
-        showError()
-        if (errorText == context.getString(R.string.invalid_code)) {
-            binding.tvWrong.gone()
-            binding.tvCodeInvalid.visible()
-        } else {
-            binding.tvCodeInvalid.gone()
-        }
-    }
-
-    private fun showError() {
-        binding.tvWrong.visible()
-        val views =
-            (0 until binding.ctnInputCode.childCount).map { binding.ctnInputCode.getChildAt(it) }
+    fun showError(error: String) {
+        binding.tvCodeInvalid.visibility = View.VISIBLE
+        binding.tvCodeInvalid.text = error
+        val views = getAllViews()
         val tvs = views.drop(1).map { it as TextView }
         (tvs.indices).forEach {
             tvs[it].setBackgroundResource(R.drawable.bg_radius_12_stroke_red)
