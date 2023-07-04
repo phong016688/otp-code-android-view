@@ -4,7 +4,6 @@ package com.otp.otp_code_view
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.util.DisplayMetrics
@@ -18,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.otp.otp_code_view.databinding.VerifyOtpCodeViewBinding
 
-class VerifyCodeView @JvmOverloads constructor(
+class OtpCodeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val binding: VerifyOtpCodeViewBinding
