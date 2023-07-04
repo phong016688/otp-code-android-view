@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="VerifyCodeViewStyle" format="reference" />
+    <declare-styleable name="VerifyCodeView">
+        <attr name="code_radius" format="dimension" />
+        <attr name="code_length" format="integer" />
+        <attr name="code_color" format="color" />
+        <attr name="code_background_color" format="color" />
+        <attr name="code_stroke_color" format="color" />
+        <attr name="code_stroke_width" format="dimension" />
+        <attr name="code_stroke_error_color" format="color" />
+        <attr name="code_error_color" format="color" />
+        <attr name="code_done_stroke_color" format="color" />
+    </declare-styleable>
+</resources>
