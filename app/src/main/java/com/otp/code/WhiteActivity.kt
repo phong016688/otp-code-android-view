@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.otp.code.databinding.ActivityMainBinding
+import com.otp.code.databinding.WhiteActivityBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,13 +13,14 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class WhiteActivity : AppCompatActivity() {
+    private lateinit var binding: WhiteActivityBinding
     private var job: Job? = null
     private var currentCode: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater, null, false)
+        binding = WhiteActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupViews()
     }
@@ -32,16 +33,14 @@ class MainActivity : AppCompatActivity() {
                 binding.verifyCode.showError("Invalid Code")
             }
         })
-        binding.btnChangeBg.setOnClickListener {
-            startActivity(Intent(this, WhiteActivity::class.java))
-        }
+        binding.btnChangeBg.setOnClickListener { finish() }
     }
 
     override fun onStart() {
         super.onStart()
         job = CoroutineScope(Dispatchers.Main).launch {
             while (true) {
-                currentCode = Random.nextInt(99999..999999).toString()
+                currentCode = Random.nextInt(999..9999).toString()
                 binding.tvCode.text = "Code: $currentCode"
                 delay(60_000)
             }

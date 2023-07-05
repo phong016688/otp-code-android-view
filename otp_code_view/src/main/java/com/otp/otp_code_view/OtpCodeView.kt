@@ -85,12 +85,13 @@ class OtpCodeView @JvmOverloads constructor(
         val allViews = getAllViews()
         val listTextView = allViews.drop(1).map { it as TextView }
         val mainEditText = allViews[0] as EditText
-        mainEditText.filters = arrayOf(InputFilter.LengthFilter(listTextView.size))
+        mainEditText.filters = arrayOf(InputFilter.LengthFilter(codeLength))
         mainEditText.setOnClickListener { mainEditText.setSelection(mainEditText.text.length) }
         mainEditText.doOnTextChanged { text, _, _, _ -> handleShowCode(text, listTextView) }
-        listTextView.forEach {
-            it.setTextColor(codeColor)
-            it.background = getDrawable(codeStrokeColor, false)
+        listTextView.forEachIndexed { index, textview ->
+            if (index >= codeLength) textview.visibility = View.GONE
+            textview.setTextColor(codeColor)
+            textview.background = getDrawable(codeStrokeColor, false)
         }
     }
 
@@ -99,7 +100,7 @@ class OtpCodeView @JvmOverloads constructor(
         text.toString().apply {
             handleBackgroundHasCode(listTextView)
             handleBackgroundNotHasCode(listTextView)
-            if (length == listTextView.size) {
+            if (length == codeLength) {
                 handleBackgroundDoneEnter(listTextView)
                 onVerifyDone?.invoke(this)
                 binding.root.hideKeyBoard()
@@ -108,7 +109,7 @@ class OtpCodeView @JvmOverloads constructor(
     }
 
     private fun String.handleBackgroundDoneEnter(listTextView: List<TextView>) {
-        (listTextView.indices).forEach {
+        (0 until codeLength).forEach {
             listTextView[it].background = getDrawable(codeDoneStrokeColor, true)
             listTextView[it].setTextColor(codeColor)
             listTextView[it].text = get(it).toString()
@@ -116,7 +117,7 @@ class OtpCodeView @JvmOverloads constructor(
     }
 
     private fun String.handleBackgroundNotHasCode(listTextView: List<TextView>) {
-        (length until listTextView.size).forEach {
+        (length until codeLength).forEach {
             listTextView[it].background = getDrawable(codeStrokeColor, false)
             listTextView[it].setTextColor(codeColor)
             listTextView[it].text = ""
@@ -164,7 +165,7 @@ class OtpCodeView @JvmOverloads constructor(
         binding.tvCodeInvalid.text = error
         val views = getAllViews()
         val tvs = views.drop(1).map { it as TextView }
-        (tvs.indices).forEach {
+        (0 until codeLength).forEach {
             tvs[it].background = getDrawable(codeStrokeErrorColor, true)
             tvs[it].setTextColor(codeErrorColor)
         }

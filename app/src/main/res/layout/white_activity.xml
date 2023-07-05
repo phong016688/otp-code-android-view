@@ -5,7 +5,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_2b2b2b"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,6 +21,15 @@
         android:id="@+id/verify_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:code_color="#CC171717"
+        app:code_stroke_color="#185C1F"
+        app:code_done_stroke_color="#1AA327"
+        app:code_background_color="#667A7979"
+        app:code_error_color="#A50202"
+        app:code_stroke_error_color="#F11919"
+        app:code_length="4"
+        app:code_radius="10dp"
+        app:code_stroke_width="2dp"
         android:layout_marginTop="100dp"
         app:layout_constraintTop_toBottomOf="@id/tv_code" />
 
