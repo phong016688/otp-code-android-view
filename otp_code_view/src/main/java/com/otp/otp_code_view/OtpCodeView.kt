@@ -37,44 +37,44 @@ class OtpCodeView @JvmOverloads constructor(
         addView(binding.root)
         val attributes = context.obtainStyledAttributes(
             attrs,
-            R.styleable.VerifyCodeView,
+            R.styleable.OtpCodeView,
             defStyleAttr,
             defStyleAttr
         )
         codeLength = attributes.getInteger(
-            R.styleable.VerifyCodeView_code_length,
+            R.styleable.OtpCodeView_code_length,
             6
         )
         codeStrokeWidth = attributes.getDimension(
-            R.styleable.VerifyCodeView_code_stroke_width,
+            R.styleable.OtpCodeView_code_stroke_width,
             1 * ratioDpToPixels
         )
         codeRadius = attributes.getDimension(
-            R.styleable.VerifyCodeView_code_radius,
+            R.styleable.OtpCodeView_code_radius,
             12 * ratioDpToPixels
         )
         codeColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_color,
+            R.styleable.OtpCodeView_code_color,
             ContextCompat.getColor(context, R.color.color_f2f2f2)
         )
         codeBGColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_background_color,
+            R.styleable.OtpCodeView_code_background_color,
             ContextCompat.getColor(context, R.color.color_0af1f6f9)
         )
         codeStrokeColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_background_color,
+            R.styleable.OtpCodeView_code_stroke_color,
             ContextCompat.getColor(context, R.color.color_b3fec70a)
         )
         codeStrokeErrorColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_background_color,
+            R.styleable.OtpCodeView_code_stroke_error_color,
             ContextCompat.getColor(context, R.color.color_ef4d42)
         )
         codeErrorColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_error_color,
+            R.styleable.OtpCodeView_code_error_color,
             ContextCompat.getColor(context, R.color.color_ef4d42)
         )
         codeDoneStrokeColor = attributes.getColor(
-            R.styleable.VerifyCodeView_code_done_stroke_color,
+            R.styleable.OtpCodeView_code_done_stroke_color,
             ContextCompat.getColor(context, R.color.color_fec70a)
         )
         attributes.recycle()
@@ -134,7 +134,7 @@ class OtpCodeView @JvmOverloads constructor(
     private fun getDrawable(strokeColor: Int, hasStroke: Boolean): GradientDrawable {
         val drawable = GradientDrawable()
         drawable.setColor(codeBGColor)
-        drawable.cornerRadius = codeRadius.toFloat()
+        drawable.cornerRadius = codeRadius
         if (hasStroke) drawable.setStroke(codeStrokeWidth.toInt(), strokeColor)
         return drawable
     }
