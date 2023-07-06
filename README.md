@@ -14,7 +14,7 @@ You can install `otp-loading-view` with `Maven Central` and `Gradle`:
 ```gradle
 // In your module's `build.gradle`
 dependencies {
-    implementation 'com.github.phong016688:otp-code-android-view:0.1'
+    implementation 'com.github.phong016688:otp-code-android-view:0.1.1'
 }
 ```
 
@@ -49,11 +49,13 @@ repositories {
         app:code_stroke_error_color="#F11919"
         app:code_length="4"
         app:code_radius="10dp"
+        app:code_length="8"
         app:code_stroke_width="2dp"/>
 ```
-> Note: max length code is 6.
+> Note: Length code is range 1 to 8. 
 
-[video_white.webm](https://github.com/phong016688/otp-code-android-view/assets/37899092/44f7077c-95f3-4fc5-b1bf-4c101cb05b77)
+[device-2023-07-06-122055.webm](https://github.com/phong016688/otp-code-android-view/assets/37899092/2f395053-dbfe-4cab-b85f-351a395c70ab)
+
    
 ## License
 
