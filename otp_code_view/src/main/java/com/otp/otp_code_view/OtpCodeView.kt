@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.text.InputFilter
 import android.util.AttributeSet
 import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +17,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.otp.otp_code_view.databinding.VerifyOtpCodeViewBinding
+import kotlin.math.min
 
 class OtpCodeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -31,27 +33,22 @@ class OtpCodeView @JvmOverloads constructor(
     private var codeErrorColor: Int
     private var codeDoneStrokeColor: Int
     private var codeRadius: Float
+    private var codeTextSize: Float
 
     init {
         binding = VerifyOtpCodeViewBinding.inflate(LayoutInflater.from(context))
         addView(binding.root)
         val attributes = context.obtainStyledAttributes(
-            attrs,
-            R.styleable.OtpCodeView,
-            defStyleAttr,
-            defStyleAttr
+            attrs, R.styleable.OtpCodeView, defStyleAttr, defStyleAttr
         )
         codeLength = attributes.getInteger(
-            R.styleable.OtpCodeView_code_length,
-            6
-        )
+            R.styleable.OtpCodeView_code_length, 6
+        ).let { maxOf(min(it, 8), 1) }
         codeStrokeWidth = attributes.getDimension(
-            R.styleable.OtpCodeView_code_stroke_width,
-            1 * ratioDpToPixels
+            R.styleable.OtpCodeView_code_stroke_width, 1 * ratioDpToPixels
         )
         codeRadius = attributes.getDimension(
-            R.styleable.OtpCodeView_code_radius,
-            12 * ratioDpToPixels
+            R.styleable.OtpCodeView_code_radius, 12 * ratioDpToPixels
         )
         codeColor = attributes.getColor(
             R.styleable.OtpCodeView_code_color,
@@ -77,6 +74,9 @@ class OtpCodeView @JvmOverloads constructor(
             R.styleable.OtpCodeView_code_done_stroke_color,
             ContextCompat.getColor(context, R.color.color_fec70a)
         )
+        codeTextSize = attributes.getDimension(
+            R.styleable.OtpCodeView_code_text_size, 24f * 6 * ratioSpToPixels / codeLength
+        )
         attributes.recycle()
         handleInputCode()
     }
@@ -90,6 +90,7 @@ class OtpCodeView @JvmOverloads constructor(
         mainEditText.doOnTextChanged { text, _, _, _ -> handleShowCode(text, listTextView) }
         listTextView.forEachIndexed { index, textview ->
             if (index >= codeLength) textview.visibility = View.GONE
+            textview.setTextSize(TypedValue.COMPLEX_UNIT_PX, codeTextSize)
             textview.setTextColor(codeColor)
             textview.background = getDrawable(codeStrokeColor, false)
         }
@@ -171,12 +172,14 @@ class OtpCodeView @JvmOverloads constructor(
         }
     }
 
+
     companion object {
         @JvmField
         val ratioDpToPixels =
             Resources.getSystem().displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT
 
         @JvmField
-        val ratioPixelsToDp: Float = (1.0 / ratioDpToPixels.toDouble()).toFloat()
+        @Suppress("DEPRECATION")
+        val ratioSpToPixels = Resources.getSystem().displayMetrics.scaledDensity
     }
 }

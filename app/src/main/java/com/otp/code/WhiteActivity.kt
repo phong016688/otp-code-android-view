@@ -1,5 +1,6 @@
 package com.otp.code
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,11 +37,12 @@ class WhiteActivity : AppCompatActivity() {
         binding.btnChangeBg.setOnClickListener { finish() }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
         job = CoroutineScope(Dispatchers.Main).launch {
             while (true) {
-                currentCode = Random.nextInt(999..9999).toString()
+                currentCode = Random.nextInt(9999999..99999999).toString()
                 binding.tvCode.text = "Code: $currentCode"
                 delay(60_000)
             }
