@@ -27,7 +27,7 @@
         app:code_color="#CC171717"
         app:code_done_stroke_color="#0CBA00"
         app:code_error_color="#A50202"
-        app:code_length="14"
+        app:code_length="8"
         app:code_radius="10dp"
         app:code_stroke_color="#990018B6"
         app:code_stroke_error_color="#F11919"
